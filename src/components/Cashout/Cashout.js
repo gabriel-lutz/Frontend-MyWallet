@@ -9,7 +9,7 @@ export default function Cashout(){
     const [data, setData] = useState({})
     const history = useHistory()
     const header = {
-        headers: {"Authorization": `Bearer ${userData.token}`}
+        headers: {"Authorization": `${userData.token}`}
     }
 
     function registerCashout(e){
@@ -18,7 +18,6 @@ export default function Cashout(){
             ...data, 
             operation: "cashout",
         }
-        
         const promisse = axios.post('http://192.168.2.11:4000/registerOperation', object, header)
         promisse.then(()=>{
             history.push("/balance")
@@ -27,12 +26,13 @@ export default function Cashout(){
             alert("Houve um erro ao registrar a operação. Tente novamente")
         })
     }
+
     return(
         <Conteiner>
             <h1>Nova Saida</h1>
             <form onSubmit={registerCashout}>
-                <Input type="number" placeholder='Valor' onChange={e=>setData({...data, ammount: e.target.value})}></Input>
-                <Input placeholder='Descrição' onChange={e=>setData({...data, description: e.target.value})}></Input>
+                <Input type="number" placeholder='Valor' onChange={e=>setData({...data, ammount: e.target.value})} ></Input>
+                <Input placeholder='Descrição' onChange={e=>setData({...data, description: e.target.value})} ></Input>
                 <Button onClick={registerCashout}>Salvar saida</Button>
             </form>
                 <CancelButton onClick={()=>{history.push("/balance")}}>Cancelar</CancelButton>

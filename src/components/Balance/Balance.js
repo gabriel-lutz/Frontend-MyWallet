@@ -1,19 +1,62 @@
 import styled from "styled-components"
 import {AiOutlineExport, AiOutlineMinusCircle, AiOutlinePlusCircle} from "react-icons/ai"
-import {useState, useContext} from "react"
+import {useState, useContext, useEffect} from "react"
 import { Link } from "react-router-dom"
 import UserContext from "../../contexts/UserContext"
+import Operation from "./Operation/Operation"
+import axios from "axios"
 
 export default function Balance(){
     const {userData} = useContext(UserContext)
+    const [operationsData, setOperationsData] = useState()
+    const [balance, setBalance] = useState(0)
+    const [isNegative, setIsNegative] = useState(false)
+    
+    useEffect(()=>{
+        const header = {
+            headers: {"Authorization": `${userData.token}`}
+        }
+        const promisse = axios.get('http://192.168.2.11:4000/balance', header)
+        promisse.then(data=>{
+            setOperationsData(data.data)
+            calcBalance(data.data)
+        })
+    }, [userData.token,])
+
+    function calcBalance(operationsData){
+        let total = 0
+        operationsData && operationsData.forEach(o => {
+            if(o.operation === 'cashin'){
+                total += o.ammount
+            }else{
+                total -= o.ammount
+            }    
+        })
+        total = total/100
+        setBalance(total.toLocaleString("pt-BR", {style:"currency", currency:"BRL"}))
+        setIsNegative(total<0? true : false)    
+    }
+
     return(
         <Conteiner>
             <NameWrapper>
                 <Name>Olá, {userData.name}</Name>
                 <AiOutlineExport />
-            </NameWrapper>
-            <BalanceBox>
-
+            </NameWrapper> 
+            <BalanceBox hasOperations={operationsData && operationsData.length && true}  >
+                {operationsData && operationsData.length?
+                    <>
+                        <OperationsWrapper>
+                            {operationsData.map(o=> <Operation key={o.id} operation={o}/>)}
+                        </OperationsWrapper>
+                        <TotalBalance isNegative={isNegative}>
+                            <p>SALDO</p>
+                            <p> {balance}</p>
+                        </TotalBalance>
+                    </>
+                    :<p>Não há registros de <br/>entrada ou saída </p>
+                }
+                
             </BalanceBox>
             <ButtonsWrapper>
                 <Link to='/cashin'>
@@ -67,6 +110,17 @@ const BalanceBox = styled.div`
     background:white;
     height: 446px;
     border-radius:5px;
+    padding: 20px 10px;
+    display:flex;
+    flex-direction: column;
+    justify-content: ${props => props.hasOperations? "space-between" : "center"};
+    align-items: center;
+    &>p{
+        font-size:23,5px;
+        color: #868686;
+        font-family: 'Raleway', sans-serif;
+        text-align: center;
+    }
 `
 const ButtonsWrapper = styled.div`
     display: flex;
@@ -94,4 +148,31 @@ const Button = styled.button`
     svg{
         font-size: 25px;
     }
+`
+const OperationsWrapper = styled.div`
+    width:100%;
+    height:100%;
+    overflow: scroll;
+    &::-webkit-scrollbar{
+        display:none;
+    }
+`
+
+const TotalBalance = styled.div`
+    width:100%;
+    display:flex;
+    margin-top: 15px;
+    justify-content: space-between;
+    align-items: center;
+    font-size:17px;
+    p:first-child{
+        color:black ;
+        font-family: 'Raleway', sans-serif;
+        font-weight:700;
+    }
+    p:last-child{
+        color:${props => props.isNegative? "#C70000": "#03AC00"};
+        font-family: 'Raleway', sans-serif;
+    }
+    
 `

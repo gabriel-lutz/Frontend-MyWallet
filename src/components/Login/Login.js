@@ -12,7 +12,8 @@ export default function Login(){
     function login(e){
         e.preventDefault()
         if(!data.email || !data.password){
-            alert("Preencha o campo de E-mail e Senha")
+            return alert("Preencha o campo de E-mail e Senha")
+        
         }
         const promisse = axios.post("http://192.168.2.11:4000/login", data)
         promisse.then(data=>{

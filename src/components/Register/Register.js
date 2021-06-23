@@ -3,7 +3,7 @@ import { Link, useHistory } from "react-router-dom"
 import { useState } from "react"
 import axios from "axios"
 export default function Register(){
-    const [data, setData] = useState()
+    const [data, setData] = useState({name:'', email:'', password:'', confirmPassword:'' })
     const [disabled, setDisabled] = useState(false)
     const history = useHistory()
 
