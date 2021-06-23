@@ -4,6 +4,8 @@ import Login from "./Login/Login"
 import Register from "./Register/Register"
 import Balance from "./Balance/Balance"
 import UserContext from "../contexts/UserContext"
+import Cashin from "./Cashin/Cashin"
+import Cashout from "./Cashout/Cashout"
 
 export default function App(){
     const [userData, setUserData] = useState({})
@@ -19,6 +21,12 @@ export default function App(){
                     </Route>
                     <Route path='/balance'>
                         <Balance></Balance>
+                    </Route>
+                    <Route path='/cashin'>
+                        <Cashin></Cashin>
+                    </Route>
+                    <Route path='/cashout'>
+                        <Cashout></Cashout>
                     </Route>
                 </Switch>
             </BrowserRouter>

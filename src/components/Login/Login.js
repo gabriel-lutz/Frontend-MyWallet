@@ -5,7 +5,7 @@ import {useState, useContext} from "react"
 import UserContext from "../../contexts/UserContext"
 
 export default function Login(){
-    const {userData, setUserData} = useContext(UserContext)
+    const {setUserData} = useContext(UserContext)
     const [data, setData] = useState({})
     const history = useHistory()
 
