@@ -102,7 +102,6 @@ const CancelButton = styled.div`
     max-width: 326px;
     height:46px;
     border-radius:5px;
-    background-color:;
     border:none;
     outline:none;
     font-size: 20px;
