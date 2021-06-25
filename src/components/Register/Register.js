@@ -16,7 +16,7 @@ export default function Register(){
             return alert("Você não confirmou a sua senha com sucesso")
         }
         setDisabled(!disabled)
-        const promisse = axios.post("http://192.168.2.11:4000/register", data)
+        const promisse = axios.post("http://localhost:4000/register", data)
         promisse.then(()=>{
             setDisabled(!disabled)
             history.push('/')

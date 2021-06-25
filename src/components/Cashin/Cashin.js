@@ -29,7 +29,7 @@ export default function Cashin(){
             description: data.description?.trim(),
             operation: "cashin",
         }
-        const promisse = axios.post('http://192.168.2.11:4000/registerOperation', object, header)
+        const promisse = axios.post('http://localhost:4000/registerOperation', object, header)
         promisse.then(()=>{
             history.push("/balance")
         })

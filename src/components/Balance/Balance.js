@@ -26,7 +26,7 @@ export default function Balance(){
         const header = {
             headers: {"Authorization": `${userData.token}`}
         }
-        const promisse = axios.get('http://192.168.2.11:4000/balance', header)
+        const promisse = axios.get('http://localhost:4000/balance', header)
         promisse.then(data=>{
             setOperationsData(data.data)
             calcBalance(data.data)
@@ -57,7 +57,7 @@ export default function Balance(){
         const header = {
             headers: {"Authorization": `${userData.token}`}
         }
-        const promisse = axios.post("http://192.168.2.11:4000/logout", {}, header)
+        const promisse = axios.post("http://localhost:4000/logout", {}, header)
         promisse.then(()=>{
             localStorage.clear()
             history.push('/')

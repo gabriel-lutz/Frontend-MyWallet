@@ -19,13 +19,13 @@ export default function App(){
                     <Route path="/register" exact>
                         <Register></Register>
                     </Route>
-                    <Route path='/balance'>
+                    <Route path='/balance' exact>
                         <Balance></Balance>
                     </Route>
-                    <Route path='/cashin'>
+                    <Route path='/cashin' exact>
                         <Cashin></Cashin>
                     </Route>
-                    <Route path='/cashout'>
+                    <Route path='/cashout' exact>
                         <Cashout></Cashout>
                     </Route>
                 </Switch>
