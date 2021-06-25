@@ -1,7 +1,7 @@
 import styled from "styled-components"
 import axios from "axios"
 import { Link, useHistory } from "react-router-dom"
-import {useState, useContext} from "react"
+import {useState, useContext, useEffect} from "react"
 import UserContext from "../../contexts/UserContext"
 
 export default function Login(){
@@ -9,18 +9,26 @@ export default function Login(){
     const [data, setData] = useState({})
     const history = useHistory()
 
+    useEffect(() => {
+        if(JSON.parse(localStorage.getItem('mywalletUserData'))!==null){
+            setUserData(JSON.parse(localStorage.getItem('mywalletUserData')))
+            history.push("/balance")
+        }
+	}, [history,setUserData]);
+
     function login(e){
         e.preventDefault()
         if(!data.email || !data.password){
             return alert("Preencha o campo de E-mail e Senha")
         
         }
-        const promisse = axios.post("http://192.168.2.11:4000/login", data)
+        const promisse = axios.post("http://192.168.0.106:4000/login", data)
         promisse.then(data=>{
-            setUserData({clientId: data.data.clientId, name: data.data.name, token: data.data.token})
+            setUserData({name: data.data.name, token: data.data.token})
+            localStorage.setItem('mywalletUserData', JSON.stringify(data.data));
             history.push('/balance')
         })
-        promisse.catch((data)=>{
+        promisse.catch(()=>{
             alert("email ou senha incorretos, tente novamente.")
         })
     }

@@ -15,7 +15,7 @@ export default function Register(){
             return alert("Você não confirmou a sua senha com sucesso")
         }
         setDisabled(!disabled)
-        const promisse = axios.post("http://192.168.2.11:4000/register", data)
+        const promisse = axios.post("http://192.168.0.106:4000/register", data)
         promisse.then(()=>{
             setDisabled(!disabled)
             history.push('/')
@@ -33,11 +33,11 @@ export default function Register(){
                 MyWallet
             </h1>
             <form onSubmit={register}>
-                <Input placeholder='Nome' onChange={e=>setData({...data, name: e.target.value})}></Input>
-                <Input placeholder='E-mail' onChange={e=>setData({...data, email: e.target.value})}></Input>
-                <Input type='password' placeholder='Senha' onChange={e=>setData({...data, password: e.target.value})}></Input>
-                <Input type='password' placeholder='Confirme a senha' onChange={e=>setData({...data, confirmPassword: e.target.value})}></Input>
-                <Button onClick={register}>Entrar</Button>
+                <Input placeholder='Nome' required onChange={e=>setData({...data, name: e.target.value})} ></Input>
+                <Input placeholder='E-mail' required type="email" onChange={e=>setData({...data, email: e.target.value})} value={data.email}></Input>
+                <Input type='password' required placeholder='Senha' onChange={e=>setData({...data, password: e.target.value})}></Input>
+                <Input type='password'  required placeholder='Confirme a senha' onChange={e=>setData({...data, confirmPassword: e.target.value})}></Input>
+                <Button onClick={register}>Cadastrar</Button>
             </form>
             <Link to='/'>
                 Ja tem uma conta? Entre agora!

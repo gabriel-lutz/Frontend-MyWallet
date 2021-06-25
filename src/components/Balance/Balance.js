@@ -2,26 +2,44 @@ import styled from "styled-components"
 import {AiOutlineExport, AiOutlineMinusCircle, AiOutlinePlusCircle} from "react-icons/ai"
 import {useState, useContext, useEffect} from "react"
 import { Link } from "react-router-dom"
+import { useHistory } from "react-router-dom"
 import UserContext from "../../contexts/UserContext"
 import Operation from "./Operation/Operation"
 import axios from "axios"
 
 export default function Balance(){
-    const {userData} = useContext(UserContext)
+    const {userData, setUserData} = useContext(UserContext)
     const [operationsData, setOperationsData] = useState()
     const [balance, setBalance] = useState(0)
     const [isNegative, setIsNegative] = useState(false)
+    const history = useHistory()
+    
+    
+
+    useEffect(() => {
+        if(JSON.parse(localStorage.getItem('mywalletUserData'))!==null){
+            setUserData(JSON.parse(localStorage.getItem('mywalletUserData')))
+        }else{
+            history.push('/')
+        }
+	}, [history,setUserData]);
     
     useEffect(()=>{
         const header = {
             headers: {"Authorization": `${userData.token}`}
         }
-        const promisse = axios.get('http://192.168.2.11:4000/balance', header)
+        const promisse = axios.get('http://192.168.0.106:4000/balance', header)
         promisse.then(data=>{
             setOperationsData(data.data)
             calcBalance(data.data)
         })
-    }, [userData.token,])
+        promisse.catch(data=>{
+            if(data.response.status === 401){
+                localStorage.clear()
+                history.push('/')
+            }
+        })
+    }, [history, userData.token])
 
     function calcBalance(operationsData){
         let total = 0
@@ -37,11 +55,22 @@ export default function Balance(){
         setIsNegative(total<0? true : false)    
     }
 
+    function logout(){
+        const header = {
+            headers: {"Authorization": `${userData.token}`}
+        }
+        const promisse = axios.post("http://192.168.0.106:4000/logout", {}, header)
+        promisse.then(()=>{
+            localStorage.clear()
+            history.push('/')
+        })
+    }
+
     return(
         <Conteiner>
             <NameWrapper>
                 <Name>Olá, {userData.name}</Name>
-                <AiOutlineExport />
+                <AiOutlineExport onClick={logout} />
             </NameWrapper> 
             <BalanceBox hasOperations={operationsData && operationsData.length && true}  >
                 {operationsData && operationsData.length?
@@ -94,6 +123,7 @@ const NameWrapper = styled.div`
     height:auto;
     font-family: 'Raleway', sans-serif;
     width:100%;
+    max-width: 375px;
     svg{
         color:white;
         font-size:28px;
@@ -125,6 +155,7 @@ const BalanceBox = styled.div`
 const ButtonsWrapper = styled.div`
     display: flex;
     width:100%;
+    max-width: 375px;
     justify-content: space-between;
     padding: 0 25px ;
     margin-top: 13px;

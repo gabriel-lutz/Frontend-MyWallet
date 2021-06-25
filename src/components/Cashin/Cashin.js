@@ -1,16 +1,24 @@
 import styled from "styled-components"
-import {useState, useContext} from "react"
+import {useState, useContext,useEffect} from "react"
 import { useHistory } from "react-router-dom"
 import UserContext from "../../contexts/UserContext"
 import axios from "axios"
 
 export default function Cashin(){
-    const {userData} = useContext(UserContext)
+    const {userData,setUserData} = useContext(UserContext)
     const [data, setData] = useState({})
     const history = useHistory()
     const header = {
         headers: {"Authorization": `${userData.token}`}
     }
+
+    useEffect(() => {
+        if(JSON.parse(localStorage.getItem('mywalletUserData'))!==null){
+            setUserData(JSON.parse(localStorage.getItem('mywalletUserData')))
+        }else{
+            history.push('/')
+        }
+	}, [history,setUserData]);
 
     function registerCashin(e){
         e.preventDefault()
@@ -19,11 +27,16 @@ export default function Cashin(){
             operation: "cashin",
         }
         
-        const promisse = axios.post('http://192.168.2.11:4000/registerOperation', object, header)
+        const promisse = axios.post('http://192.168.0.106:4000/registerOperation', object, header)
         promisse.then(()=>{
             history.push("/balance")
         })
-        promisse.catch(()=>{
+        promisse.catch((data)=>{
+            if(data.response.status === 401){
+                localStorage.clear()
+                history.push('/')
+                return
+            }
             alert("Houve um erro ao registrar a operação. Tente novamente")
         })
     }
@@ -43,11 +56,12 @@ export default function Cashin(){
 const Conteiner = styled.div`
     display: flex;
     flex-direction: column;
-    align-items:left;
+    align-items:center;
     
     h1{
         color:white;
         font-size: 26px;
+        width:375px;
         font-family: 'Raleway', sans-serif;
         font-weight: 700;
         margin-top:25px;
@@ -102,7 +116,6 @@ const CancelButton = styled.div`
     max-width: 326px;
     height:46px;
     border-radius:5px;
-    background-color:;
     border:none;
     outline:none;
     font-size: 20px;
@@ -110,5 +123,4 @@ const CancelButton = styled.div`
     font-weight: 700;
     text-align: center;
     padding:12px;
-    margin-left: 25px;;
 `
