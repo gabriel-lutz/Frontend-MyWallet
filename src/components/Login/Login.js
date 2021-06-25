@@ -1,7 +1,8 @@
+import {useState, useContext, useEffect} from "react"
+import { Link, useHistory } from "react-router-dom"
 import styled from "styled-components"
 import axios from "axios"
-import { Link, useHistory } from "react-router-dom"
-import {useState, useContext, useEffect} from "react"
+
 import UserContext from "../../contexts/UserContext"
 
 export default function Login(){
@@ -20,7 +21,6 @@ export default function Login(){
         e.preventDefault()
         if(!data.email || !data.password){
             return alert("Preencha o campo de E-mail e Senha")
-        
         }
         const promisse = axios.post("http://192.168.2.11:4000/login", data)
         promisse.then(data=>{

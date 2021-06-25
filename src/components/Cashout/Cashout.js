@@ -1,8 +1,10 @@
-import styled from "styled-components"
 import {useState, useContext, useEffect} from "react"
 import { useHistory } from "react-router-dom"
-import UserContext from "../../contexts/UserContext"
+import CurrencyInput from "react-currency-masked-input"
+import styled from "styled-components"
 import axios from "axios"
+
+import UserContext from "../../contexts/UserContext"
 
 export default function Cashout(){
     const {userData,setUserData} = useContext(UserContext)
@@ -23,8 +25,8 @@ export default function Cashout(){
     function registerCashout(e){
         e.preventDefault()
         const object = {
-            ammount: data.ammount,
-            description: data.description.trim(),
+            ammount: data.ammount?.replace(".", ""),
+            description: data.description?.trim(),
             operation: "cashout",
         }
         const promisse = axios.post('http://192.168.2.11:4000/registerOperation', object, header)
@@ -43,10 +45,13 @@ export default function Cashout(){
 
     return(
         <Conteiner>
-            <h1>Nova Saida</h1>
+            <h1>Nova saida</h1>
             <form onSubmit={registerCashout}>
-                <Input type="number" placeholder='Valor' onChange={e=>setData({...data, ammount: e.target.value})} ></Input>
-                <Input placeholder='Descrição' onChange={e=>setData({...data, description: e.target.value})} ></Input>
+                <InputDiv >
+                    {data.ammount && <p>R$</p>}
+                    <CurrencyInput type="number" placeholder='Valor' onChange={e=>setData({...data, ammount: e.target.value})}></CurrencyInput>
+                </InputDiv>
+                <Input placeholder='Descrição' onChange={e=>setData({...data, description: e.target.value})}></Input>
                 <Button onClick={registerCashout}>Salvar saida</Button>
             </form>
                 <CancelButton onClick={()=>{history.push("/balance")}}>Cancelar</CancelButton>
@@ -58,7 +63,6 @@ const Conteiner = styled.div`
     display: flex;
     flex-direction: column;
     align-items:center;
-    
     h1{
         color:white;
         font-size: 26px;
@@ -94,9 +98,37 @@ const Input = styled.input`
     font-size: 20px;
     outline: none;
     color:black;
+    background-color:white;
     &::placeholder{
         color:#bbbbbb;
     }
+`
+
+const InputDiv = styled.div`
+    width: 100%;
+    max-width: 326px;
+    padding: 15px;
+    height:58px;
+    margin-bottom:13px;
+    border-radius: 5px;
+    background-color:white;
+    display: flex;
+    align-items: center;
+    p{
+        font-size: 20px; 
+    }
+    input{
+        width:100%;
+        height:100%;
+        border: none;
+        font-size: 20px;
+        outline: none;
+        color:black;
+        &::placeholder{
+            color:#bbbbbb;
+        }
+    }
+    
 `
 
 const Button = styled.button`

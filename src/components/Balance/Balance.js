@@ -1,11 +1,11 @@
-import styled from "styled-components"
 import {AiOutlineExport, AiOutlineMinusCircle, AiOutlinePlusCircle} from "react-icons/ai"
 import {useState, useContext, useEffect} from "react"
-import { Link } from "react-router-dom"
-import { useHistory } from "react-router-dom"
+import { useHistory, Link } from "react-router-dom"
+import styled from "styled-components"
+import axios from "axios"
+
 import UserContext from "../../contexts/UserContext"
 import Operation from "./Operation/Operation"
-import axios from "axios"
 
 export default function Balance(){
     const {userData, setUserData} = useContext(UserContext)
@@ -14,8 +14,6 @@ export default function Balance(){
     const [isNegative, setIsNegative] = useState(false)
     const history = useHistory()
     
-    
-
     useEffect(() => {
         if(JSON.parse(localStorage.getItem('mywalletUserData'))!==null){
             setUserData(JSON.parse(localStorage.getItem('mywalletUserData')))
@@ -85,7 +83,6 @@ export default function Balance(){
                     </>
                     :<p>Não há registros de <br/>entrada ou saída </p>
                 }
-                
             </BalanceBox>
             <ButtonsWrapper>
                 <Link to='/cashin'>
@@ -110,10 +107,11 @@ const Conteiner = styled.div`
     flex-direction: column;
     align-items:center;
     a{
-    text-decoration: none;
-    color:white;
-    font-family: 'Raleway', sans-serif;
-}`
+        text-decoration: none;
+        color:white;
+        font-family: 'Raleway', sans-serif;
+    }
+`
 
 const NameWrapper = styled.div`
     display:flex;
@@ -160,6 +158,7 @@ const ButtonsWrapper = styled.div`
     padding: 0 25px ;
     margin-top: 13px;
 `
+
 const Button = styled.button`
     display:flex;
     padding:10px;
@@ -180,6 +179,7 @@ const Button = styled.button`
         font-size: 25px;
     }
 `
+
 const OperationsWrapper = styled.div`
     width:100%;
     height:100%;

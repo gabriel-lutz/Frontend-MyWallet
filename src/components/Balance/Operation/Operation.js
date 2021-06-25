@@ -1,5 +1,6 @@
 import styled from "styled-components"
 import dayjs from "dayjs"
+
 export default function Operation({operation}){
     return(
         <Conteiner operation={operation.operation === 'cashin'}>

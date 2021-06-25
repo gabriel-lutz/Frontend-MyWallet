@@ -1,11 +1,11 @@
 import { useState } from "react"
 import { BrowserRouter,Switch, Route } from "react-router-dom"
-import Login from "./Login/Login"
-import Register from "./Register/Register"
-import Balance from "./Balance/Balance"
 import UserContext from "../contexts/UserContext"
-import Cashin from "./Cashin/Cashin"
+import Register from "./Register/Register"
 import Cashout from "./Cashout/Cashout"
+import Balance from "./Balance/Balance"
+import Cashin from "./Cashin/Cashin"
+import Login from "./Login/Login"
 
 export default function App(){
     const [userData, setUserData] = useState({})
