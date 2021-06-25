@@ -33,5 +33,6 @@ const Wrapper = styled.div`
     }
     p:last-child{
         color:black;
+        word-break:break-all;
     }
 `

@@ -15,14 +15,14 @@ export default function Login(){
             history.push("/balance")
         }
 	}, [history,setUserData]);
-
+    
     function login(e){
         e.preventDefault()
         if(!data.email || !data.password){
             return alert("Preencha o campo de E-mail e Senha")
         
         }
-        const promisse = axios.post("http://192.168.0.106:4000/login", data)
+        const promisse = axios.post("http://192.168.2.11:4000/login", data)
         promisse.then(data=>{
             setUserData({name: data.data.name, token: data.data.token})
             localStorage.setItem('mywalletUserData', JSON.stringify(data.data));

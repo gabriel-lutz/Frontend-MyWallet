@@ -23,11 +23,12 @@ export default function Cashin(){
     function registerCashin(e){
         e.preventDefault()
         const object = {
-            ...data, 
+            ammount: data.ammount,
+            description: data.description.trim(),
             operation: "cashin",
         }
         
-        const promisse = axios.post('http://192.168.0.106:4000/registerOperation', object, header)
+        const promisse = axios.post('http://192.168.2.11:4000/registerOperation', object, header)
         promisse.then(()=>{
             history.push("/balance")
         })
