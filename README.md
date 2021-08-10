@@ -2,7 +2,7 @@
 
 An simple and intuitive financial manager for tracking your expenses and revenues.
 
-<img src="/assets/mywallet.gif" />
+<img style='display:block; margin: 0 auto' src="/assets/mywallet.gif" />
 
 Try it out now at https://frontend-my-wallet.vercel.app/
 
