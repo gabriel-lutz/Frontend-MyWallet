@@ -36,8 +36,8 @@ The following tools and frameworks were used in the construction of the project:
 ## How to run
 
 1. Clone this repository
-2. Clone the back-end repository at https://github.com/my-user/my-project-backend
-3. Follow instructions to run back-end at https://github.com/my-user/my-project-backend
+2. Clone the back-end repository at https://github.com/gabriel-lutz/my-wallet-api
+3. Follow instructions to run back-end at https://github.com/gabriel-lutz/my-wallet-api
 4. Rename the **.env.example** file to **.env** and point the URL to your running back-end 
 5. Install dependencies
 ```bash
