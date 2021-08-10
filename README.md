@@ -1,9 +1,9 @@
 # My Wallet
 
 An simple and intuitive financial manager for tracking your expenses and revenues.
-
-<img style='display:block; margin: 0 auto' src="/assets/mywallet.gif" />
-
+<p align='center'>
+  <img src="/assets/mywallet.gif" />
+</p>
 Try it out now at https://frontend-my-wallet.vercel.app/
 
 ## About
