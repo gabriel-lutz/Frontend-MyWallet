@@ -57,7 +57,7 @@ export default function Balance(){
         const header = {
             headers: {"Authorization": `${userData.token}`}
         }
-        const promisse = axios.post(`$process.env.REACT_APP_API_BASE_URL/logout`, {}, header)
+        const promisse = axios.post(`${process.env.REACT_APP_API_BASE_URL}/logout`, {}, header)
         promisse.then(()=>{
             localStorage.clear()
             history.push('/')
