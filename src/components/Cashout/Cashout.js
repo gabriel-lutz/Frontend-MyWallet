@@ -29,7 +29,7 @@ export default function Cashout(){
             description: data.description?.trim(),
             operation: "cashout",
         }
-        const promisse = axios.post('http://localhost:4000/registerOperation', object, header)
+        const promisse = axios.post(`${process.env.REACT_APP_API_BASE_URL}/registerOperation`, object, header)
         promisse.then(()=>{
             history.push("/balance")
         })

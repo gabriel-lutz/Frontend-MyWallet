@@ -16,7 +16,7 @@ export default function Register(){
             return alert("Você não confirmou a sua senha com sucesso")
         }
         setDisabled(!disabled)
-        const promisse = axios.post("http://localhost:4000/register", data)
+        const promisse = axios.post(`${process.env.REACT_APP_API_BASE_URL}/register`, data)
         promisse.then(()=>{
             setDisabled(!disabled)
             history.push('/')

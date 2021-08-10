@@ -22,7 +22,7 @@ export default function Login(){
         if(!data.email || !data.password){
             return alert("Preencha o campo de E-mail e Senha")
         }
-        const promisse = axios.post("http://localhost:4000/login", data)
+        const promisse = axios.post(`${process.env.REACT_APP_API_BASE_URL}/login`, data)
         promisse.then(data=>{
             setUserData({name: data.data.name, token: data.data.token})
             localStorage.setItem('mywalletUserData', JSON.stringify(data.data));
