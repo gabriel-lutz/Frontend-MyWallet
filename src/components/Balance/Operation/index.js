@@ -2,15 +2,15 @@ import styled from "styled-components"
 import dayjs from "dayjs"
 
 export default function Operation({operation}){
-    return(
-        <Conteiner operation={operation.operation === 'cashin'}>
-            <Wrapper >
-                <p>{dayjs(operation.date).format('DD/MM')}</p>
-                <p>{operation.description}</p>
-            </Wrapper>
-            <p>{(operation.ammount/100).toLocaleString("pt-BR", {style:"currency", currency:"BRL"})}</p>
-        </Conteiner>
-    )
+	return(
+		<Conteiner operation={operation.operation === "cashin"}>
+			<Wrapper >
+				<p>{dayjs(operation.date).format("DD/MM")}</p>
+				<p>{operation.description}</p>
+			</Wrapper>
+			<p>{(operation.ammount/100).toLocaleString("pt-BR", {style:"currency", currency:"BRL"})}</p>
+		</Conteiner>
+	)
 
 }
 

@@ -6,57 +6,66 @@ import axios from "axios"
 
 import UserContext from "../../contexts/UserContext"
 
-export default function Cashout(){
-    const {userData,setUserData} = useContext(UserContext)
-    const [data, setData] = useState({})
-    const history = useHistory()
-    const header = {
-        headers: {"Authorization": `${userData.token}`}
-    }
+export default function Register(){
+	const path = window.location.pathname.replace("/","")
+	console.log("oi")
+	const {userData,setUserData} = useContext(UserContext)
+	const [data, setData] = useState({})
+	const history = useHistory()
+	const header = {
+		headers: {"Authorization": `${userData.token}`}
+	}
 
-    useEffect(() => {
-        if(JSON.parse(localStorage.getItem('mywalletUserData'))!==null){
-            setUserData(JSON.parse(localStorage.getItem('mywalletUserData')))
-        }else{
-            history.push('/')
-        }
-	}, [history,setUserData]);
+	useEffect(() => {
+		if(JSON.parse(localStorage.getItem("mywalletUserData"))!==null){
+			setUserData(JSON.parse(localStorage.getItem("mywalletUserData")))
+		}else{
+			history.push("/")
+		}
+	}, [history,setUserData])
 
-    function registerCashout(e){
-        e.preventDefault()
-        const object = {
-            ammount: data.ammount?.replace(".", ""),
-            description: data.description?.trim(),
-            operation: "cashout",
-        }
-        const promisse = axios.post(`${process.env.REACT_APP_API_BASE_URL}/registerOperation`, object, header)
-        promisse.then(()=>{
-            history.push("/balance")
-        })
-        promisse.catch((data)=>{
-            if(data.response.status === 401){
-                localStorage.clear()
-                history.push('/')
-                return
-            }
-            alert("Houve um erro ao registrar a operação. Tente novamente")
-        })
-    }
+	function registerTransaction(e){
+		e.preventDefault()
+		const object = {
+			ammount: data.ammount?.replace(".", ""),
+			description: data.description?.trim(),
+			operation: path
+		}
+		const promisse = axios.post(`${process.env.REACT_APP_API_BASE_URL}/registerOperation`, object, header)
+		promisse.then(()=>{
+			history.push("/balance")
+		})
+		promisse.catch((data)=>{
+			if(data.response.status === 401){
+				localStorage.clear()
+				history.push("/")
+				return
+			}
+			alert("Houve um erro ao registrar a operação. Tente novamente")
+		})
+	}
 
-    return(
-        <Conteiner>
-            <h1>Nova saida</h1>
-            <form onSubmit={registerCashout}>
-                <InputDiv >
-                    {data.ammount && <p>R$</p>}
-                    <CurrencyInput type="number" placeholder='Valor' onChange={e=>setData({...data, ammount: e.target.value})}></CurrencyInput>
-                </InputDiv>
-                <Input placeholder='Descrição' onChange={e=>setData({...data, description: e.target.value})}></Input>
-                <Button onClick={registerCashout}>Salvar saida</Button>
-            </form>
-                <CancelButton onClick={()=>{history.push("/balance")}}>Cancelar</CancelButton>
-        </Conteiner>
-    )
+	return(
+		<Conteiner>
+			<h1>Nova {path === "cashin"? "entrada" : "saída"}</h1>
+			<form onSubmit={registerTransaction}>
+				<InputDiv >
+					{data.ammount &&<p>R$</p>}
+					<CurrencyInput placeholder='Valor'
+						type="number" 
+						onChange={e=>setData({...data, ammount: e.target.value})}>
+					</CurrencyInput>
+				</InputDiv>
+				<Input placeholder='Descrição' 
+					onChange={e=>setData({...data, description: e.target.value})}>
+				</Input>
+				<Button onClick={registerTransaction}> 
+                    Salvar {path === "cashin"? "entrada" : "saída"}
+				</Button>
+			</form>
+			<CancelButton onClick={()=>{history.push("/balance")}}>Cancelar</CancelButton>
+		</Conteiner>
+	)
 }
 
 const Conteiner = styled.div`
